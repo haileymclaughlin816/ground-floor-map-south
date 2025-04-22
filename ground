@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Hospital Map - Ground Floor Test</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Mapbox CSS -->
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { position: absolute; top: 0; bottom: 0; width: 100%; }
+  </style>
+
+  <!-- Mapbox JS -->
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+</head>
+<body>
+
+  <div id="map"></div>
+
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiaGFpbGV5bWNsYXVnaGxpbjgxNiIsImEiOiJjbThjNzFlNmYwOXhpMmpvbGxqYm02ZjFvIn0.aYKi3cWby6LrDWTnCPNcIA';
+
+    const map = new mapboxgl.Map({
+      container: 'map',
+      style: 'mapbox://styles/haileymclaughlin816/cm9r4b1os001m01qtcnn52j50',
+      center: [-93.2796627, 37.1449022],
+      zoom: 19
+    });
+
+    map.on('load', () => {
+      map.addSource('ground-floor', {
+        type: 'image',
+        url: 'https://raw.githubusercontent.com/haileymclaughlin816/hospital-map/main/ground.png',
+        coordinates: [
+          [-93.2931, 37.1212],  // top-left
+          [-93.2915, 37.1212],  // top-right
+          [-93.2915, 37.1200],  // bottom-right
+          [-93.2931, 37.1200]   // bottom-left
+        ]
+      });
+
+      map.addLayer({
+        id: 'ground-floor',
+        type: 'raster',
+        source: 'ground-floor',
+        paint: {
+          'raster-opacity': 0.8
+        }
+      });
+
+      new mapboxgl.Marker()
+        .setLngLat([-93.2796627, 37.1449022])
+        .setPopup(new mapboxgl.Popup().setHTML("<h3>Emergency Dept</h3><p>Entrance A</p>"))
+        .addTo(map);
+    });
+  </script>
+</body>
+</html>
